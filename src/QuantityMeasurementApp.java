@@ -2,30 +2,37 @@ package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
 
-    // Feet class
-    public static class Feet {
-        private final double value;
+    // ENUM for units
+    public enum LengthUnit {
+        FEET(1.0),
+        INCHES(1.0 / 12.0);
 
-        public Feet(double value) {
-            this.value = value;
+        private final double toFeet;
+
+        LengthUnit(double toFeet) {
+            this.toFeet = toFeet;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-
-            Feet other = (Feet) obj;
-            return Double.compare(this.value, other.value) == 0;
+        public double toFeet(double value) {
+            return value * toFeet;
         }
     }
 
-    // Inches class (same logic)
-    public static class Inches {
+    // Generic Length class
+    public static class Length {
         private final double value;
+        private final LengthUnit unit;
 
-        public Inches(double value) {
+        public Length(double value, LengthUnit unit) {
+            if (unit == null) {
+                throw new IllegalArgumentException("Unit cannot be null");
+            }
             this.value = value;
+            this.unit = unit;
+        }
+
+        private double toBaseUnit() {
+            return unit.toFeet(value);
         }
 
         @Override
@@ -33,8 +40,9 @@ public class QuantityMeasurementApp {
             if (this == obj) return true;
             if (obj == null || getClass() != obj.getClass()) return false;
 
-            Inches other = (Inches) obj;
-            return Double.compare(this.value, other.value) == 0;
+            Length other = (Length) obj;
+
+            return Double.compare(this.toBaseUnit(), other.toBaseUnit()) == 0;
         }
     }
 }
