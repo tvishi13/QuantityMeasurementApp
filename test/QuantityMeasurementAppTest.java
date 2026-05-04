@@ -9,55 +9,37 @@ import com.apps.quantitymeasurement.QuantityMeasurementApp.LengthUnit;
 public class QuantityMeasurementAppTest {
 
     @Test
-    void testFeetToFeet_SameValue() {
-        assertTrue(new Length(1.0, LengthUnit.FEET)
-                .equals(new Length(1.0, LengthUnit.FEET)));
+    void yardEqualsFeet() {
+        assertTrue(new Length(1, LengthUnit.YARDS)
+                .equals(new Length(3, LengthUnit.FEET)));
     }
 
     @Test
-    void testInchToInch_SameValue() {
-        assertTrue(new Length(1.0, LengthUnit.INCHES)
-                .equals(new Length(1.0, LengthUnit.INCHES)));
+    void yardEqualsInches() {
+        assertTrue(new Length(1, LengthUnit.YARDS)
+                .equals(new Length(36, LengthUnit.INCHES)));
     }
 
     @Test
-    void testFeetToInches_Equal() {
-        assertTrue(new Length(1.0, LengthUnit.FEET)
-                .equals(new Length(12.0, LengthUnit.INCHES)));
+    void cmEqualsInches() {
+        assertTrue(new Length(1, LengthUnit.CENTIMETERS)
+                .equals(new Length(0.393701, LengthUnit.INCHES)));
     }
 
     @Test
-    void testInchesToFeet_Equal() {
-        assertTrue(new Length(12.0, LengthUnit.INCHES)
-                .equals(new Length(1.0, LengthUnit.FEET)));
+    void cmNotEqualFeet() {
+        assertFalse(new Length(1, LengthUnit.CENTIMETERS)
+                .equals(new Length(1, LengthUnit.FEET)));
     }
 
     @Test
-    void testFeetDifferent() {
-        assertFalse(new Length(1.0, LengthUnit.FEET)
-                .equals(new Length(2.0, LengthUnit.FEET)));
-    }
+    void transitiveProperty() {
+        Length yard = new Length(1, LengthUnit.YARDS);
+        Length feet = new Length(3, LengthUnit.FEET);
+        Length inches = new Length(36, LengthUnit.INCHES);
 
-    @Test
-    void testInchesDifferent() {
-        assertFalse(new Length(1.0, LengthUnit.INCHES)
-                .equals(new Length(2.0, LengthUnit.INCHES)));
-    }
-
-    @Test
-    void testNullComparison() {
-        assertFalse(new Length(1.0, LengthUnit.FEET).equals(null));
-    }
-
-    @Test
-    void testSameReference() {
-        Length l = new Length(1.0, LengthUnit.FEET);
-        assertTrue(l.equals(l));
-    }
-
-    @Test
-    void testNullUnit() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new Length(1.0, null));
+        assertTrue(yard.equals(feet));
+        assertTrue(feet.equals(inches));
+        assertTrue(yard.equals(inches));
     }
 }

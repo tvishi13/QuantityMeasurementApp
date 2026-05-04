@@ -2,10 +2,11 @@ package com.apps.quantitymeasurement;
 
 public class QuantityMeasurementApp {
 
-    // ENUM for units
     public enum LengthUnit {
         FEET(1.0),
-        INCHES(1.0 / 12.0);
+        INCHES(1.0 / 12.0),
+        YARDS(3.0),
+        CENTIMETERS(1.0 / 30.48); // 1 cm = 1/30.48 feet
 
         private final double toFeet;
 
@@ -18,7 +19,6 @@ public class QuantityMeasurementApp {
         }
     }
 
-    // Generic Length class
     public static class Length {
         private final double value;
         private final LengthUnit unit;
@@ -41,7 +41,6 @@ public class QuantityMeasurementApp {
             if (obj == null || getClass() != obj.getClass()) return false;
 
             Length other = (Length) obj;
-
             return Double.compare(this.toBaseUnit(), other.toBaseUnit()) == 0;
         }
     }
